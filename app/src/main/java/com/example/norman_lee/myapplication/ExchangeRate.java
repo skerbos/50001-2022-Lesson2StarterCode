@@ -36,7 +36,9 @@ public class ExchangeRate {
 
     BigDecimal calculateAmount(String foreign){
         //TODO 2.5a complete this method to return the amount
-        return BigDecimal.ZERO;
+        BigDecimal foreignBigDecimal = BigDecimal.valueOf(Integer.parseInt(foreign));
+        foreignBigDecimal = foreignBigDecimal.multiply(exchangeRate);
+        return foreignBigDecimal;
     }
 
     void setPrecision(int precision){
