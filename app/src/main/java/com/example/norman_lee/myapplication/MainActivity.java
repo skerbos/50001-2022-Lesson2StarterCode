@@ -57,18 +57,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO 2.4 Display a Toast & Logcat message if the editTextValue widget contains an empty string
-                if (editTextValue.getText().toString().equals("") )
-                {
+                if (editTextValue.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, R.string.input_error, Toast.LENGTH_LONG).show();
                     Log.i(TAG, "Empty String");
-                }
-                else
-                {
-                    BigDecimal convertedCurrency = new ExchangeRate().calculateAmount(editTextValue.getText().toString());
+                } else {
+                    BigDecimal convertedCurrency = new ExchangeRate(String.valueOf(exchangeRate)).calculateAmount(editTextValue.getText().toString());
                     textViewResult.setText(convertedCurrency.toString());
                 }
-        //TODO 2.5 If not, calculate the units of B with the exchange rate and display it
-        //TODO 2.5a See ExchangeRate class --->
+                //TODO 2.5 If not, calculate the units of B with the exchange rate and display it
+                //TODO 2.5a See ExchangeRate class --->
             }
         });
 
@@ -81,9 +78,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent toSubActivity = new Intent(MainActivity.this, SubActivity.class);
                 startActivity(toSubActivity);
+
+
             }
         });
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,6 +94,17 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Intent receiveSub = getIntent();
+        if (receiveSub.getExtras() != null)
+        {
+            String valueA = receiveSub.getStringExtra(SubActivity.A_KEY);
+            String valueB = receiveSub.getStringExtra(SubActivity.B_KEY);
+            ExchangeRate newExchange = new ExchangeRate(valueA, valueB);
+            exchangeRate = newExchange.getExchangeRate().doubleValue();
+            textViewExchangeRate.setText(String.valueOf(exchangeRate));
+        }
+
     }
 
     @Override

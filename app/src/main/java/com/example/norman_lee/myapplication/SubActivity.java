@@ -1,11 +1,13 @@
 package com.example.norman_lee.myapplication;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SubActivity extends AppCompatActivity {
 
@@ -38,6 +40,20 @@ public class SubActivity extends AppCompatActivity {
                 //TODO 3.8 Obtain the values stored in the editTextWidgets
                 String subValueOfA = editTextSubValueOfA.getText().toString();
                 String subValueOfB = editTextSubValueOfB.getText().toString();
+                try
+                {
+                    Utils.checkValidInputs(subValueOfA);
+                    Utils.checkValidInputs(subValueOfB);
+                }
+                catch (Exception illegal)
+                {
+                    Toast.makeText(SubActivity.this, R.string.input_error, Toast.LENGTH_LONG).show();
+                }
+
+                Intent toMain = new Intent(SubActivity.this, MainActivity.class);
+                toMain.putExtra(A_KEY, subValueOfA);
+                toMain.putExtra(B_KEY, subValueOfB);
+                startActivity(toMain);
 
             }
         });
